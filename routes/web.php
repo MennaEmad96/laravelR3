@@ -22,13 +22,12 @@ Route::get('login', function () {
     return view('login');
 });
 
-
+/*
 Route::post('logged', function(){
 	return 'You are logged in.';
 })->name('logged');
-
+*/
 
 Route::get('control',[ExampleController::class,'show']);
 
-
-//Route::get('logged',[ExampleController::class,'showData']);
+Route::post('logged',[ExampleController::class,'showData'])->name('logged');

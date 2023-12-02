@@ -13,7 +13,11 @@ class ExampleController extends Controller
 
     public function showData(Request $r){
         $email = $r->email;
-        return with('email', $email);
-        
-    }
+        $pwd = $r->pwd;
+        //$remember = $r->$remember;
+        //echo $remember;
+
+        echo 'Email is: ' . $email . '<br>' . 'Password is: ' . $pwd . '<br>';
+        //return array($email,$pwd);
+    }    
 }
