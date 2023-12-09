@@ -49,3 +49,5 @@ Route::get('cars',[CarController::class,'index'])->name('cars');
 Route::get('createPost',[PostController::class,'create'])->name('createPost');
 //store data entry form
 Route::post('storePost',[PostController::class,'store'])->name('storePost');
+//show all post data
+Route::get('posts',[PostController::class,'index'])->name('posts');
