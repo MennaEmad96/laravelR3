@@ -42,6 +42,15 @@ Route::get('createCar',[CarController::class,'create'])->name('createCar');
 //Route::get('storeCar',[CarController::class,'store']);
 Route::post('storeCar',[CarController::class,'store'])->name('storeCar');
 Route::get('cars',[CarController::class,'index'])->name('cars');
+//update car
+Route::get('editCar/{id}',[CarController::class,'edit']);
+Route::put('updateCar/{id}',[CarController::class,'update'])->name('updateCar');
+//show car
+Route::get('showCar/{id}',[CarController::class,'show']);
+//delete
+Route::get('deleteCar/{id}',[CarController::class,'destroy']);
+
+
 
 
 //task port table routes
@@ -51,3 +60,10 @@ Route::get('createPost',[PostController::class,'create'])->name('createPost');
 Route::post('storePost',[PostController::class,'store'])->name('storePost');
 //show all post data
 Route::get('posts',[PostController::class,'index'])->name('posts');
+//show sigle item
+Route::get('showPost/{id}',[PostController::class,'show']);
+//update
+Route::get('editPost/{id}',[PostController::class,'edit']);
+Route::put('updatePost/{id}',[PostController::class,'update'])->name('updatePost');
+//delete
+Route::get('deletePost/{id}',[PostController::class,'destroy']);

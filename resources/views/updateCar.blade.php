@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Add Car</title>
+  <title>Update Car</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -9,26 +9,24 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
+    @include('includes.nav');
     <div class="container">
-        <h2>Add new post data</h2>
-        <form action="{{route ('storePost')}}" method="post">
+        <h2>Update car data</h2>
+        <form action="{{route ('updateCar', $car->id)}}" method="post">
             @csrf
+            @method('put')
             <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" class="form-control" id="title" placeholder="Enter Title" name="title">
-            </div>
-            <div class="form-group">
-            <label for="author">Author:</label>
-            <input type="text" class="form-control" id="author" placeholder="Enter Author" name="author">
+            <input type="text" class="form-control" id="title" placeholder="Enter title" name="title" value="{{ $car->title }}">
             </div>
             <div class="form-group">
             <label for="description">description:</label>
-            <textarea class="form-control" name="description" id="" placeholder="Enter Description" cols="60" rows="3"></textarea>
+            <textarea class="form-control" name="description" id="" cols="60" rows="3">{{ $car->description }}</textarea>
             </div>
             <div class="checkbox">
-            <label><input type="checkbox" name="published"> Published me</label>
+            <label><input type="checkbox" name="published" @checked($car->published)> Published me</label>
             </div>
-            <button type="submit" class="btn btn-default">Insert</button>
+            <button type="submit" class="btn btn-default">Update</button>
         </form>
     </div>
 

@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use DB;
 
 class CarController extends Controller
 {
+    //names from html blade file
+    private $columns = ['title', 'description', 'published'];
     /**
      * Display a listing of the resource.
      */
@@ -45,16 +48,22 @@ class CarController extends Controller
         // }else{
         //     return "No Request Found";
         // }
-        $cars = new Car();
-        $cars->title = $request->title;
-        $cars->description = $request->description;
-        if(isset($request->published)){
-            $cars->published = 1;
-        }else{
-            $cars->published = 0;
-        }
-        $cars->save();
-        return "Data added successfully";
+        // manual method
+        // $cars = new Car();
+        // $cars->title = $request->title;
+        // $cars->description = $request->description;
+        // if(isset($request->published)){
+        //     $cars->published = 1;
+        // }else{
+        //     $cars->published = 0;
+        // }
+        // $cars->save();
+        // return "Data added successfully";
+        $data = $request->only($this->columns);
+        $data['published'] = isset($request->published);
+        //dd ($request->published);
+        Car::create($data);
+        return redirect('cars');
     }
 
     /**
@@ -62,7 +71,8 @@ class CarController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $car = Car::findOrFail($id);
+        return view('showCar', compact("car"));
     }
 
     /**
@@ -70,7 +80,10 @@ class CarController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // $sql = "SELECT `title`, `description`, `published` FROM `cars` WHERE `id` = $id";
+        // $car = DB::select($sql);
+        $car = Car::findOrFail($id);
+        return view('updateCar', compact("car"));
     }
 
     /**
@@ -78,7 +91,10 @@ class CarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->only($this->columns);
+        $data['published'] = isset($request->published);
+        Car::where('id', $id)->update($data);
+        return redirect('cars');
     }
 
     /**
@@ -86,6 +102,7 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Car::where('id', $id)->delete();
+        return redirect('cars');
     }
 }

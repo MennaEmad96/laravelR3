@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use DB;
 
 class PostController extends Controller
 {
+
+    private $columns = ['title', 'description', 'published', 'author'];
     /**
      * Display a listing of the resource.
      */
@@ -39,7 +42,7 @@ class PostController extends Controller
             $posts->published = 0;
         }
         $posts->save();
-        return "Data added successfully";
+        return redirect('posts');
     }
 
     /**
@@ -47,7 +50,8 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        return view('showPost', compact("post"));
     }
 
     /**
@@ -55,7 +59,8 @@ class PostController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        return view('updatePost', compact("post"));
     }
 
     /**
@@ -63,7 +68,10 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $data = $request->only($this->columns);
+        $data['published'] = isset($request->published);
+        Post::where('id', $id)->update($data);
+        return redirect('posts');
     }
 
     /**
@@ -71,6 +79,7 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Post::where('id', $id)->delete();
+        return redirect('posts');
     }
 }

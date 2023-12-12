@@ -15,18 +15,20 @@
             <thead>
                 <tr>
                     <th>Title</th>
-                    <th>Author</th>
-                    <th>Description</th>
-                    <th>Published</th>
+                    <th>created_at</th>
+                    <th>Edit</th>
+                    <th>Show</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($posts as $data)
                     <tr>
                         <td>{{ $data->title }}</td>
-                        <td>{{ $data->author }}</td>
-                        <td>{{ $data->description }}</td>
-                        <td>{{ $data->published ? "Yes" : "No" }}</td>
+                        <td>{{ $data->created_at }}</td>
+                        <td><a href="editPost/{{ $data->id }}">Edit</a></td>
+                        <td><a href="showPost/{{ $data->id }}">Show</a></td>
+                        <td><a onclick="return confirm('Are you sure?')" href="deletePost/{{ $data->id }}">Delete</a></td>
                     </tr>
                 @endforeach
             </tbody>
