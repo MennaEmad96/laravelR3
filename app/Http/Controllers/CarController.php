@@ -33,6 +33,7 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
+        /////////////////////////////////////////////////////////////////////
         // if(isset($request)){
         //     return dd($request);
         //     // $cars = new Car();
@@ -48,6 +49,7 @@ class CarController extends Controller
         // }else{
         //     return "No Request Found";
         // }
+        /////////////////////////////////////////////////////////////////////
         // manual method
         // $cars = new Car();
         // $cars->title = $request->title;
@@ -59,9 +61,18 @@ class CarController extends Controller
         // }
         // $cars->save();
         // return "Data added successfully";
-        $data = $request->only($this->columns);
+        /////////////////////////////////////////////////////////////////////
+        // $data = $request->only($this->columns);
+        // $data['published'] = isset($request->published);
+        // //dd ($request->published);
+        // Car::create($data);
+        // return redirect('cars');
+        /////////////////////////////////////////////////////////////////////
+        $data = $request->validate([
+            'title'=>'required|string|max:50',
+            'description'=>'required|string',
+        ]);
         $data['published'] = isset($request->published);
-        //dd ($request->published);
         Car::create($data);
         return redirect('cars');
     }
@@ -102,7 +113,25 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        Car::where('id', $id)->delete();
+        Car::where('id', $id)->delete();    // softdelete
+        return redirect('cars');
+    }
+
+    public function trashed()
+    {
+        $cars = Car::onlyTrashed()->get();
+        return view("trashed", compact("cars"));
+    }
+
+    public function forceDelete(string $id)
+    {
+        Car::where('id', $id)->forceDelete(); 
+        return redirect('cars');
+    }
+
+    public function restore(string $id)
+    {
+        Car::where('id', $id)->restore(); 
         return redirect('cars');
     }
 }

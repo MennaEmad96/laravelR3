@@ -32,16 +32,25 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $posts = new Post();
-        $posts->title = $request->title;
-        $posts->author = $request->author;
-        $posts->description = $request->description;
-        if(isset($request->published)){
-            $posts->published = 1;
-        }else{
-            $posts->published = 0;
-        }
-        $posts->save();
+        // $posts = new Post();
+        // $posts->title = $request->title;
+        // $posts->author = $request->author;
+        // $posts->description = $request->description;
+        // if(isset($request->published)){
+        //     $posts->published = 1;
+        // }else{
+        //     $posts->published = 0;
+        // }
+        // $posts->save();
+        // return redirect('posts');
+        /////////////////////////////////////////////////////////////////////////////
+        $data = $request->validate([
+            'title'=>'required|string|max:50',
+            'author'=>'required|string|max:50',
+            'description'=>'required|string',
+        ]);
+        $data['published'] = isset($request->published);
+        Post::create($data);
         return redirect('posts');
     }
 
@@ -68,9 +77,18 @@ class PostController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = $request->only($this->columns);
+        // $data = $request->only($this->columns);
+        // $data['published'] = isset($request->published);
+        // Post::where('id', $id)->update($data);
+        // return redirect('posts');
+
+        $data = $request->validate([
+            'title'=>'required|string|max:50',
+            'author'=>'required|string|max:50',
+            'description'=>'required|string',
+        ]);
         $data['published'] = isset($request->published);
-        Post::where('id', $id)->update($data);
+        Post::create($data);
         return redirect('posts');
     }
 
@@ -81,5 +99,23 @@ class PostController extends Controller
     {
         Post::where('id', $id)->delete();
         return redirect('posts');
+    }
+
+    public function trashed()
+    {
+        $posts = Post::onlyTrashed()->get();
+        return view("trashedPost", compact("posts"));
+    }
+
+    public function restore(string $id)
+    {
+        Post::where('id', $id)->restore(); 
+        return redirect('posts');
+    }
+
+    public function forceDelete(string $id)
+    {
+        Post::where('id', $id)->forceDelete(); 
+        return redirect('trashedPost');
     }
 }

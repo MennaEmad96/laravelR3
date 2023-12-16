@@ -50,6 +50,11 @@ Route::get('showCar/{id}',[CarController::class,'show']);
 //delete
 Route::get('deleteCar/{id}',[CarController::class,'destroy']);
 
+Route::get('trashed',[CarController::class,'trashed'])->name('trashed');
+
+Route::get('forceDelete/{id}',[CarController::class,'forceDelete'])->name('forceDelete');
+
+Route::get('restoreCar/{id}',[CarController::class,'restore'])->name('restoreCar');
 
 
 
@@ -67,3 +72,7 @@ Route::get('editPost/{id}',[PostController::class,'edit']);
 Route::put('updatePost/{id}',[PostController::class,'update'])->name('updatePost');
 //delete
 Route::get('deletePost/{id}',[PostController::class,'destroy']);
+//taskDay6
+Route::get('trashedPost',[PostController::class,'trashed'])->name('trashedPost');
+Route::get('restorePost/{id}',[PostController::class,'restore'])->name('restorePost');
+Route::get('forceDeletePost/{id}',[PostController::class,'forceDelete'])->name('forceDeletePost');
