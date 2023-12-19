@@ -4,10 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Traits\Common;
 use DB;
+use File;
 
 class CarController extends Controller
 {
+    use Common;
     //names from html blade file
     private $columns = ['title', 'description', 'published'];
     /**
@@ -68,11 +71,16 @@ class CarController extends Controller
         // Car::create($data);
         // return redirect('cars');
         /////////////////////////////////////////////////////////////////////
+        $messages=$this->messages();
         $data = $request->validate([
             'title'=>'required|string|max:50',
             'description'=>'required|string',
-        ]);
+            'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+        ], $messages);
+        //use method from traits called uploadFile
+        $fileName = $this->uploadFile($request->image, 'assets/images');
         $data['published'] = isset($request->published);
+        $data['image'] = $fileName;
         Car::create($data);
         return redirect('cars');
     }
@@ -102,9 +110,38 @@ class CarController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $data = $request->only($this->columns);
+        // $data = $request->only($this->columns);
+        // $data['published'] = isset($request->published);
+        // Car::where('id', $id)->update($data);
+        // return redirect('cars');
+
+        $messages=$this->messages();
+        $data = $request->validate([
+            'title'=>'required|string|max:50',
+            'description'=>'required|string',
+        ], $messages);
+        //use method from traits called uploadFile
+        if(isset($request->image)){
+            $data = $request->validate([
+                'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            ], $messages);
+            $fileName = $this->uploadFile($request->image, 'assets/images');
+            $data['image'] = $fileName;
+            //get old image name from database
+            $oldImageName = DB::select("SELECT `image` FROM `cars` WHERE `id` = $id");
+        }
         $data['published'] = isset($request->published);
         Car::where('id', $id)->update($data);
+        //delete old image from local server
+        if(isset($request->image)){
+            //image path on local server
+            //dd($oldImageName[0]->image);
+            $image_path = asset('assets/images/' . $oldImageName[0]->image);
+            //delete image
+            // if(File::exists($image_path)) {
+            //     File::delete($image_path);
+            // }
+        }
         return redirect('cars');
     }
 
@@ -133,5 +170,22 @@ class CarController extends Controller
     {
         Car::where('id', $id)->restore(); 
         return redirect('cars');
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required'=>'العنوان مطلوب',
+            'title.string'=>'Should be string',
+            'description.required'=>'Should be text',
+            'image.required'=>'Please be sure to select an image',
+            'image.mimes'=>'Incorrect image type',
+            'image.max'=>'Max file size exeeced',
+        ];
+    }
+
+    public function test()
+    {
+        return view('test');
     }
 }

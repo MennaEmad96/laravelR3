@@ -76,3 +76,17 @@ Route::get('deletePost/{id}',[PostController::class,'destroy']);
 Route::get('trashedPost',[PostController::class,'trashed'])->name('trashedPost');
 Route::get('restorePost/{id}',[PostController::class,'restore'])->name('restorePost');
 Route::get('forceDeletePost/{id}',[PostController::class,'forceDelete'])->name('forceDeletePost');
+
+
+//day 7
+Route::get('test',[CarController::class,'test'])->name('test');
+//OR
+// Route::get('test', function () {
+//     return view('test');
+// });
+//open form to upload image
+Route::get('image', function () {
+    return view('image');
+});
+//upload the image
+Route::post('imageUpload',[ExampleController::class,'upload'])->name('imageUpload');

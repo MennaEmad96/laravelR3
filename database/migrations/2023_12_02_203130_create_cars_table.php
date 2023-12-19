@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title',100);
             $table->longText('description');
+            $table->string('image',100);
             $table->boolean('published');
             $table->softDeletes();
             $table->timestamps();

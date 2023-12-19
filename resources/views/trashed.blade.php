@@ -19,7 +19,7 @@
                     <th>Description</th>
                     <th>Published</th>
                     <th>Edit</th>
-                    <th>Show</th>
+                    <!--<th>Show</th>-->
                     <th>Restore</th>
                     <th>Delete</th>
                 </tr>
@@ -31,7 +31,7 @@
                         <td>{{ $data->description }}</td>
                         <td>{{ $data->published ? "Yes" : "No" }}</td>
                         <td><a href="editCar/{{ $data->id }}">Edit</a></td>
-                        <td><a href="showCar/{{ $data->id }}">Show</a></td>
+                        <!--<td><a href="showCar/{{ $data->id }}">Show</a></td>-->
                         <td><a href="restoreCar/{{ $data->id }}">Restore</a></td>
                         <td><a onclick="return confirm('Are you sure to permanently delete this record?')" href="forceDelete/{{ $data->id }}">Force Delete</a></td>
                     </tr>
