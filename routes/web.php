@@ -90,3 +90,30 @@ Route::get('image', function () {
 });
 //upload the image
 Route::post('imageUpload',[ExampleController::class,'upload'])->name('imageUpload');
+
+
+
+
+Route::get('try', function () {
+    return view('testHome');
+});
+
+Route::get('404', function () {
+    return view('404');
+})->name('404');
+
+Route::get('blog', function () {
+    return view('blog-single');
+})->name('blog');
+
+Route::get('contact', function () {
+    return view('contact');
+})->name('contact');
+
+Route::get('portfolio', function () {
+    return view('portfolio-details');
+})->name('portfolio');
+
+Route::get('index', function () {
+    return view('index');
+})->name('index');
