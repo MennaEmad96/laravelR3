@@ -119,12 +119,28 @@ class CarController extends Controller
         $data = $request->validate([
             'title'=>'required|string|max:50',
             'description'=>'required|string',
+            'image' => 'sometimes|mimes:png,jpg,jpeg|max:2048',
         ], $messages);
-        //use method from traits called uploadFile
-        if(isset($request->image)){
-            $data = $request->validate([
-                'image' => 'required|mimes:png,jpg,jpeg|max:2048',
-            ], $messages);
+        
+        // return dd($request);
+        // +request: Symfony\Component\HttpFoundation\InputBag {#38 ▼
+        //     #parameters: array:5 [▼
+        //       "_token" => "phZDcfOPGKLvzlHuyW49b5L7UqWG0SffEvKHreAu"
+        //       "_method" => "put"
+        //       "title" => "try title"
+        //       "description" => "try des"
+        //       "oldImage" => "1703023405.jpg"
+        //     ]
+        //   }
+
+        // return dd($data);
+        // array:2 [▼ // app\Http\Controllers\CarController.php:126
+        // "title" => "try title"
+        // "description" => "try des"
+        // ]
+
+        if($request->hasFile('image')){
+            //use method from traits called uploadFile
             $fileName = $this->uploadFile($request->image, 'assets/images');
             $data['image'] = $fileName;
             //get old image name from database
@@ -132,6 +148,7 @@ class CarController extends Controller
         }
         $data['published'] = isset($request->published);
         Car::where('id', $id)->update($data);
+
         //delete old image from local server
         if(isset($request->image)){
             //image path on local server
