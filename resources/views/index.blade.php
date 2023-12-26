@@ -1,5 +1,9 @@
 @extends('layouts.pages')
 
+@section('title')
+    Mediplus - Free Medical and Doctor Directory HTML Template.
+@endsection
+
 @section('content')
     <!-- Slider Area -->
     @include('includes.slider')

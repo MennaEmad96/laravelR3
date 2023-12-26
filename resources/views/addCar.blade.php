@@ -35,6 +35,22 @@
                 {{ $message }}
             @enderror
             </div>
+            <!-- try -->
+            <div class="form-group">
+            <label for="category">Category:</label>
+            <div class="form-group">
+                <select name="category">
+                    <option value="">Select Category</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @error('category')
+                {{ $message }}
+            @enderror
+            </div>
+            <!-- endtry -->
             <div class="checkbox">
             <label><input type="checkbox" name="published" @checked(old('published'))> Published me</label>
             </div>

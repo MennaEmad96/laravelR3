@@ -1,5 +1,9 @@
 @extends('layouts.pages')
 
+@section('title')
+    Mediplus - Contact
+@endsection
+
 @section('bread')
 	@include('includes.breadcrumbs')
 @endsection
@@ -104,7 +108,9 @@
 		</div>
 	</section>
 	<!--/ End Contact Us -->
+@endsection
 
+@section('js')
 	<!-- Google Map API Key JS -->
 	<script src="https://maps.google.com/maps/api/js?key=AIzaSyDGqTyqoPIvYxhn_Sa7ZrK5bENUWhpCo0w"></script>
 	<!-- Gmaps JS -->

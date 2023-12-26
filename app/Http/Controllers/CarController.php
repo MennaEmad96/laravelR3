@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Car;
+use App\Models\Category;
 use App\Traits\Common;
 use DB;
 use File;
@@ -19,8 +20,9 @@ class CarController extends Controller
     public function index()
     {
         $cars = Car::get();
+        $categories = Category::get();
         //return dd($cars[0]->published);
-        return view("cars", compact("cars"));
+        return view("cars", compact("cars", "categories"));
     }
 
     /**
@@ -28,7 +30,8 @@ class CarController extends Controller
      */
     public function create()
     {
-        return view('addCar');
+        $categories = Category::get();
+        return view('addCar', compact("categories"));
     }
 
     /**
@@ -76,6 +79,7 @@ class CarController extends Controller
             'title'=>'required|string|max:50',
             'description'=>'required|string',
             'image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            'category' => 'required',
         ], $messages);
         //use method from traits called uploadFile
         $fileName = $this->uploadFile($request->image, 'assets/images');
@@ -102,7 +106,8 @@ class CarController extends Controller
         // $sql = "SELECT `title`, `description`, `published` FROM `cars` WHERE `id` = $id";
         // $car = DB::select($sql);
         $car = Car::findOrFail($id);
-        return view('updateCar', compact("car"));
+        $categories = Category::get();
+        return view('updateCar', compact("car","categories"));
     }
 
     /**
@@ -143,17 +148,19 @@ class CarController extends Controller
             //use method from traits called uploadFile
             $fileName = $this->uploadFile($request->image, 'assets/images');
             $data['image'] = $fileName;
+            unlink("assets/images/".$request->oldImageName);
             //get old image name from database
-            $oldImageName = DB::select("SELECT `image` FROM `cars` WHERE `id` = $id");
+            //$oldImageName = DB::select("SELECT `image` FROM `cars` WHERE `id` = $id");
         }
         $data['published'] = isset($request->published);
+        //return dd($request);
         Car::where('id', $id)->update($data);
 
-        //delete old image from local server
+        //delete old image from local server.. doesn't work
         if(isset($request->image)){
             //image path on local server
             //dd($oldImageName[0]->image);
-            $image_path = asset('assets/images/' . $oldImageName[0]->image);
+            //$image_path = asset('assets/images/' . $oldImageName[0]->image);
             //delete image
             // if(File::exists($image_path)) {
             //     File::delete($image_path);
@@ -188,7 +195,7 @@ class CarController extends Controller
         Car::where('id', $id)->restore(); 
         return redirect('cars');
     }
-
+        
     public function messages()
     {
         return [

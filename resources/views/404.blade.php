@@ -1,5 +1,9 @@
 @extends('layouts.pages')
 
+@section('title')
+    Mediplus - Error
+@endsection
+
 @section('content')
 <section class="error-page section">
     <div class="container">

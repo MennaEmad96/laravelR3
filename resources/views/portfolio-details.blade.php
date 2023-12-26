@@ -1,5 +1,8 @@
 @extends('layouts.pages')
 
+@section('title')
+    Mediplus - Portofolio
+@endsection
 
 @section('bread')
 	@include('includes.breadcrumbs')

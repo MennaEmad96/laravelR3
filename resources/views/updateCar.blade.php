@@ -34,10 +34,26 @@
                 <input type="file" class="form-control" id="image" name="image">
                 <br>
                 <img src="{{ asset('assets/images/' . $car->image) }}" alt="image" style="height:200px"/>
+                <input type="hidden" name="oldImageName" value="{{ $car->image }}">
             @error('image')
                 {{ $message }}
             @enderror
             </div>
+            <!-- try -->
+            <div class="form-group">
+            <label for="category">Category:</label>
+            <div class="form-group">
+                <select name="category">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category->id == $car->category_id ? "selected":"" }}>{{ $category->cat_name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            @error('category')
+                {{ $message }}
+            @enderror
+            </div>
+            <!-- endtry -->
             <div class="checkbox">
                 <label><input type="checkbox" name="published" @checked($car->published)> Published me</label>
             </div>
