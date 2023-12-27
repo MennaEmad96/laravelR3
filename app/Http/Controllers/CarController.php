@@ -85,6 +85,7 @@ class CarController extends Controller
         $fileName = $this->uploadFile($request->image, 'assets/images');
         $data['published'] = isset($request->published);
         $data['image'] = $fileName;
+        $data['category_id'] = $request->category;
         Car::create($data);
         return redirect('cars');
     }
@@ -153,6 +154,7 @@ class CarController extends Controller
             //$oldImageName = DB::select("SELECT `image` FROM `cars` WHERE `id` = $id");
         }
         $data['published'] = isset($request->published);
+        $data['category_id'] = $request->category;
         //return dd($request);
         Car::where('id', $id)->update($data);
 
