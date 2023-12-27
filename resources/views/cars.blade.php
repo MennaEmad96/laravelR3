@@ -25,7 +25,7 @@
                 </tr>
             </thead>
             <tbody>
-            {{-- @each('includes.carsTable', [$cars, $categories], ['data', 'category']) --}}
+            {{--@each('includes.carsTable', $cars, 'data')--}}
                 @foreach($cars as $data)
                     <tr>
                         <td>{{ $data->title }}</td>

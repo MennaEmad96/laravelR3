@@ -22,6 +22,7 @@ class CarController extends Controller
         $cars = Car::get();
         $categories = Category::get();
         //return dd($cars[0]->published);
+        //return view("cars", compact("cars", "categories"))->share('categories', 'category');
         return view("cars", compact("cars", "categories"));
     }
 
@@ -79,13 +80,13 @@ class CarController extends Controller
             'title'=>'required|string|max:50',
             'description'=>'required|string',
             'image' => 'required|mimes:png,jpg,jpeg|max:2048',
-            'category' => 'required',
+            'category_id' => 'required|exists:categories,id',
         ], $messages);
         //use method from traits called uploadFile
         $fileName = $this->uploadFile($request->image, 'assets/images');
         $data['published'] = isset($request->published);
         $data['image'] = $fileName;
-        $data['category_id'] = $request->category;
+        //$data['category_id'] = $request->category_id;
         Car::create($data);
         return redirect('cars');
     }
@@ -126,8 +127,8 @@ class CarController extends Controller
             'title'=>'required|string|max:50',
             'description'=>'required|string',
             'image' => 'sometimes|mimes:png,jpg,jpeg|max:2048',
+            'category_id' => 'required|exists:categories,id',
         ], $messages);
-        
         // return dd($request);
         // +request: Symfony\Component\HttpFoundation\InputBag {#38 ▼
         //     #parameters: array:5 [▼
@@ -154,8 +155,8 @@ class CarController extends Controller
             //$oldImageName = DB::select("SELECT `image` FROM `cars` WHERE `id` = $id");
         }
         $data['published'] = isset($request->published);
-        $data['category_id'] = $request->category;
-        //return dd($request);
+        //$data['category_id'] = $request->category;
+        //return dd($data);
         Car::where('id', $id)->update($data);
 
         //delete old image from local server.. doesn't work
@@ -207,6 +208,7 @@ class CarController extends Controller
             'image.required'=>'Please be sure to select an image',
             'image.mimes'=>'Incorrect image type',
             'image.max'=>'Max file size exeeced',
+            'category_id.exists'=>'Choose category whithin our given categories',
         ];
     }
 
