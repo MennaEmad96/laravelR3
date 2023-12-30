@@ -35,22 +35,20 @@
                 {{ $message }}
             @enderror
             </div>
-            <!-- try -->
             <div class="form-group">
             <label for="category">Category:</label>
             <div class="form-group">
                 <select name="category_id">
                     <option value="">Select Category</option>
                     @foreach($categories as $category)
-                        <option value="{{ $category->id }}">{{ $category->cat_name }}</option>
+                        <option value="{{ $category->id }}" @selected(old('category_id') == $category->id)>{{ $category->cat_name }}</option>
                     @endforeach
                 </select>
             </div>
-            @error('category')
+            @error('category_id')
                 {{ $message }}
             @enderror
             </div>
-            <!-- endtry -->
             <div class="checkbox">
             <label><input type="checkbox" name="published" @checked(old('published'))> Published me</label>
             </div>

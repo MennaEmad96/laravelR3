@@ -14,7 +14,8 @@
     <h5>{{ $car->created_at }}</h5>
     <h5>{{ $car->updated_at }}</h5>
     <p>{{ $car->description }}</p>
+    <p>{{ $car->category->cat_name }}</p>
     <p>{{ $car->published? "Published" : "Not Published" }}</p>
-    <img src="{{ asset('assets/images/' . $car->image) }}" alt="image" width="200" height="300"/>
+    <img src="{{ asset('assets/images/' . $car->image) }}" alt="image" style="height:200px"/>
 </body>
 </html>

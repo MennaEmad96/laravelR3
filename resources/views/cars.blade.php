@@ -25,22 +25,24 @@
                 </tr>
             </thead>
             <tbody>
-            {{--@each('includes.carsTable', $cars, 'data')--}}
-                @foreach($cars as $data)
+            @each('includes.carsTable', $cars, 'data')
+                {{--@foreach($cars as $data)
                     <tr>
                         <td>{{ $data->title }}</td>
                         <td>{{ $data->description }}</td>
                         <td>{{ $data->published ? "Yes" : "No" }}</td>
-                        @foreach($categories as $category)
+                        {{--@foreach($categories as $category)
                             @if($data->category_id == $category->id)
                                 <td>{{ $category->cat_name }}</td>
                             @endif
                         @endforeach
+                        <!-- use one to many relation -->
+                        <td>{{ $data->category->cat_name }}</td>
                         <td><a href="editCar/{{ $data->id }}">Edit</a></td>
                         <td><a href="showCar/{{ $data->id }}">Show</a></td>
                         <td><a onclick="return confirm('Are you sure?')" href="deleteCar/{{ $data->id }}">Delete</a></td>
                     </tr>
-                @endforeach
+                @endforeach--}}
             </tbody>
         </table>
     </div>

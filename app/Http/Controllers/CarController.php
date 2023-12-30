@@ -150,7 +150,8 @@ class CarController extends Controller
             //use method from traits called uploadFile
             $fileName = $this->uploadFile($request->image, 'assets/images');
             $data['image'] = $fileName;
-            unlink("assets/images/".$request->oldImageName);
+            //remove old image from server
+            //unlink("assets/images/".$request->oldImageName);
             //get old image name from database
             //$oldImageName = DB::select("SELECT `image` FROM `cars` WHERE `id` = $id");
         }
