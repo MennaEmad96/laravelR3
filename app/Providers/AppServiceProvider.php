@@ -11,7 +11,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        //generates actual images
+        if (!$this->app->environment('production')) {
+            $this->app->register('App\Providers\FakerServiceProvider');
+        }
     }
 
     /**
