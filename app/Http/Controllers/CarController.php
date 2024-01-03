@@ -190,7 +190,10 @@ class CarController extends Controller
 
     public function forceDelete(string $id)
     {
-        Car::where('id', $id)->forceDelete(); 
+        $sql = "SELECT `image` FROM `cars` WHERE `id` = $id";
+        $imageName = DB::select($sql);
+        Car::where('id', $id)->forceDelete();
+        unlink("assets/images/".$imageName[0]->image);
         return redirect('cars');
     }
 

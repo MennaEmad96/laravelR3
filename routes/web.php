@@ -20,24 +20,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('login', function () {
-    return view('login');
-});
+// Route::get('login', function () {
+//     return view('login');
+// });
 
-/*
-Route::post('logged', function(){
-	return 'You are logged in.';
-})->name('logged');
-*/
 
 Route::get('control',[ExampleController::class,'show']);
-
-Route::post('logged',[ExampleController::class,'showData'])->name('logged');
+// Route::post('logged',[ExampleController::class,'showData'])->name('logged');
 
 
 //car table routes
 //open entry car form
-Route::get('createCar',[CarController::class,'create'])->name('createCar');
+Route::get('createCar',[CarController::class,'create'])->middleware('verified')->name('createCar');
 //store data into car table
 //Route::get('storeCar',[CarController::class,'store']);
 Route::post('storeCar',[CarController::class,'store'])->name('storeCar');
@@ -49,11 +43,8 @@ Route::put('updateCar/{id}',[CarController::class,'update'])->name('updateCar');
 Route::get('showCar/{id}',[CarController::class,'show']);
 //delete
 Route::get('deleteCar/{id}',[CarController::class,'destroy']);
-
 Route::get('trashed',[CarController::class,'trashed'])->name('trashed');
-
 Route::get('forceDelete/{id}',[CarController::class,'forceDelete'])->name('forceDelete');
-
 Route::get('restoreCar/{id}',[CarController::class,'restore'])->name('restoreCar');
 
 
@@ -97,23 +88,21 @@ Route::post('imageUpload',[ExampleController::class,'upload'])->name('imageUploa
 Route::get('try', function () {
     return view('testHome');
 });
-
 Route::get('404', function () {
     return view('404');
 })->name('404');
-
 Route::get('blog', function () {
     return view('blog-single');
 })->name('blog');
-
 Route::get('contact', function () {
     return view('contact');
 })->name('contact');
-
 Route::get('portfolio', function () {
     return view('portfolio-details');
 })->name('portfolio');
-
 Route::get('index', function () {
     return view('index');
 })->name('index');
+
+Auth::routes(['verify'=>true]);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
