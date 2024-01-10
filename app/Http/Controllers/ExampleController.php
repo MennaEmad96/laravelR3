@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Mail\MailableName;
+use Illuminate\Support\Facades\Mail;
+
 class ExampleController extends Controller
 {
     //create methods that returns a view or words
@@ -31,5 +34,41 @@ class ExampleController extends Controller
         //save image into laravel images
         $request->image->move($path, $file_name);
         return 'Uploaded';
+    }
+
+    public function createSession(){
+        session()->put('testSession', 'My first session value');
+        session()->forget('testSession');
+        return 'sesstion created: '.session('testSession');
+    }
+
+    public function email(Request $request){
+        // return $request;
+        $messages=$this->messages();
+        $data = $request->validate([
+            'name'=>'required|string|max:50',
+            'phone'=>'required|string|max:20',
+            'email'=>'required|email',
+            'subject' => 'required|string|max:100',
+            'message' => 'required|string|max:1000',
+        ], $messages);
+        $data['news'] = isset($request->news);
+
+        Mail::to('eng_peter_elias@gmail.com')->send(new MailableName($data));
+        
+        return "Email sent sucssefully";
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required'=>'العنوان مطلوب',
+            'title.string'=>'Should be string',
+            'description.required'=>'Should be text',
+            'image.required'=>'Please be sure to select an image',
+            'image.mimes'=>'Incorrect image type',
+            'image.max'=>'Max file size exeeced',
+            'category_id.exists'=>'Choose category whithin our given categories',
+        ];
     }
 }

@@ -52,9 +52,9 @@
                                     </li>
                                     <li><a href="#">Doctos </a></li>
                                     <li><a href="#">Services </a></li>
-                                    <li class="{{ request()->is('404') ? 'active' : ''}}"><a href="{{ route('404') }}">Pages <i class="icofont-rounded-down"></i></a>
+                                    <li class=""><a href="">Pages <i class="icofont-rounded-down"></i></a>
                                         <ul class="dropdown">
-                                            <li><a href="{{ route('404') }}">404 Error</a></li>
+                                            <li><a href="">404 Error</a></li>
                                         </ul>
                                     </li>
                                     <li class="{{ request()->is('blog') ? 'active' : ''}}"><a href="{{ route('blog') }}">Blogs <i class="icofont-rounded-down"></i></a>

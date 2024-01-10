@@ -26,33 +26,49 @@
 							<h2>Contact With Us</h2>
 							<p>If you have any questions please fell free to contact with us.</p>
 							<!-- Form -->
-							<form class="form" method="post" action="mail/mail.php">
+							<form class="form" method="post" action="{{route ('email')}}">
+								@csrf
 								<div class="row">
 									<div class="col-lg-6">
 										<div class="form-group">
-											<input type="text" name="name" placeholder="Name" required="">
+											<input type="text" name="name" placeholder="Name" required="" value="{{ old('name') }}">
 										</div>
 									</div>
+									@error('name')
+										{{ $message }}
+									@enderror
 									<div class="col-lg-6">
 										<div class="form-group">
-											<input type="email" name="email" placeholder="Email" required="">
+											<input type="email" name="email" placeholder="Email" required="" value="{{ old('email') }}">
 										</div>
 									</div>
+									@error('email')
+										{{ $message }}
+									@enderror
 									<div class="col-lg-6">
 										<div class="form-group">
-											<input type="text" name="phone" placeholder="Phone" required="">
+											<input type="text" name="phone" placeholder="Phone" required="" value="{{ old('phone') }}">
 										</div>
 									</div>
+									@error('phone')
+										{{ $message }}
+									@enderror
 									<div class="col-lg-6">
 										<div class="form-group">
-											<input type="text" name="subject" placeholder="Subject" required="">
+											<input type="text" name="subject" placeholder="Subject" required="" value="{{ old('subject') }}">
 										</div>
 									</div>
+									@error('subject')
+										{{ $message }}
+									@enderror
 									<div class="col-lg-12">
 										<div class="form-group">
-											<textarea name="message" placeholder="Your Message" required=""></textarea>
+											<textarea name="message" placeholder="Your Message" required="">{{ old('message') }}</textarea>
 										</div>
 									</div>
+									@error('message')
+										{{ $message }}
+									@enderror
 									<div class="col-12">
 										<div class="form-group login-btn">
 											<button class="btn" type="submit">Send</button>

@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ExampleController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PageController;
+
+use App\Mail\MailableName;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,25 +87,27 @@ Route::post('imageUpload',[ExampleController::class,'upload'])->name('imageUploa
 
 
 
+//page routes
+Route::get('index',[PageController::class,'index'])->name('index');
+Route::fallback(PageController::class)->name('404');
+Route::get('contact',[PageController::class,'contact'])->name('contact');
+Route::get('blog',[PageController::class,'blog'])->name('blog');
+Route::get('portfolio',[PageController::class,'portfolio'])->name('portfolio');
 
-Route::get('try', function () {
-    return view('testHome');
-});
-Route::get('404', function () {
-    return view('404');
-})->name('404');
-Route::get('blog', function () {
-    return view('blog-single');
-})->name('blog');
-Route::get('contact', function () {
-    return view('contact');
-})->name('contact');
-Route::get('portfolio', function () {
-    return view('portfolio-details');
-})->name('portfolio');
-Route::get('index', function () {
-    return view('index');
-})->name('index');
 
 Auth::routes(['verify'=>true]);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+Route::get('test20',[ExampleController::class,'createSession']);
+
+
+
+//email, contact form data
+Route::post('email',[ExampleController::class,'email'])->name('email');
+
+Route::get('/testroute', function(){
+    $name = "Menna";
+    Mail::to('eng_peter_elias@gmail.com')->send(new MailableName($name));
+})->name('testroute');
+
