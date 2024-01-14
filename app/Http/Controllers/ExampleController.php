@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Mail\MailableName;
 use Illuminate\Support\Facades\Mail;
 
+use App\Models\Contact;
+
 class ExampleController extends Controller
 {
     //create methods that returns a view or words
@@ -53,10 +55,12 @@ class ExampleController extends Controller
             'message' => 'required|string|max:1000',
         ], $messages);
         $data['news'] = isset($request->news);
-
-        Mail::to('eng_peter_elias@gmail.com')->send(new MailableName($data));
-        
-        return "Email sent sucssefully";
+        $tomail="menna@gmail.com";
+        // 'eng_peter_elias@gmail.com'
+        //send array '$data' to 'construct' method in 'MailableName' class
+        // Mail::to($tomail)->send(new MailableName($data));
+        Contact::create($data);
+        return back()->with('success','Email sent sucssefully');
     }
 
     public function messages()

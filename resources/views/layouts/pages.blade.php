@@ -5,7 +5,8 @@
 		
     </head>
     <body>
-	
+	@yield('alert')
+
     @include('includes.preloader')
 		
     @include('includes.header')
