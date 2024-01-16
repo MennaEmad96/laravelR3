@@ -33,22 +33,47 @@ Route::get('control',[ExampleController::class,'show']);
 
 
 //car table routes
-//open entry car form
-Route::get('createCar',[CarController::class,'create'])->middleware('verified')->name('createCar');
-//store data into car table
-//Route::get('storeCar',[CarController::class,'store']);
-Route::post('storeCar',[CarController::class,'store'])->name('storeCar');
-Route::get('cars',[CarController::class,'index'])->name('cars');
-//update car
-Route::get('editCar/{id}',[CarController::class,'edit']);
-Route::put('updateCar/{id}',[CarController::class,'update'])->name('updateCar');
-//show car
-Route::get('showCar/{id}',[CarController::class,'show']);
-//delete
-Route::get('deleteCar/{id}',[CarController::class,'destroy']);
-Route::get('trashed',[CarController::class,'trashed'])->name('trashed');
-Route::get('forceDelete/{id}',[CarController::class,'forceDelete'])->name('forceDelete');
-Route::get('restoreCar/{id}',[CarController::class,'restore'])->name('restoreCar');
+Route::group(
+    [
+        'prefix' => LaravelLocalization::setLocale(),
+        'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+    ], function(){
+
+        Route::group(['middleware' => ['verified']], function () {
+            //store data into car table
+            //Route::get('storeCar',[CarController::class,'store']);
+            Route::post('storeCar',[CarController::class,'store'])->name('storeCar');
+            Route::get('cars',[CarController::class,'index'])->name('cars');
+            //update car
+            Route::get('editCar/{id}',[CarController::class,'edit']);
+            Route::put('updateCar/{id}',[CarController::class,'update'])->name('updateCar');
+            //show car
+            Route::get('showCar/{id}',[CarController::class,'show']);
+            //delete
+            Route::get('deleteCar/{id}',[CarController::class,'destroy']);
+            Route::get('trashed',[CarController::class,'trashed'])->name('trashed');
+            Route::get('forceDelete/{id}',[CarController::class,'forceDelete'])->name('forceDelete');
+            Route::get('restoreCar/{id}',[CarController::class,'restore'])->name('restoreCar');
+        });
+        //open entry car form
+        Route::get('createCar',[CarController::class,'create'])->middleware('verified')->name('createCar');
+});
+
+// نظهر الللغة الانجليزية الافتاضية
+// ملف تاني انجليزي.. لكل ملف و كل view
+// اسم الملف
+// key:translation
+// open view: {{ __('messages.key') }} باستخدام اسم الملف
+// config app  تغييير الللغة الافتراضية
+// test: didn'nt' work--> cache clear or config clear or config cache
+// use mcamara;
+// composer require mcamara/laravel-localization
+// found in "download package is done into vendor"
+// at documintation-->نشغل الملف اللي فيه الترجمات
+// php artisan vendor:publish --provider="Mcamara\LaravelLocalization\LaravelLocalizationServiceProvider"
+// app/http/kernel-->مضيف الاوامر
+// in web?? auto redirect
+// stop aspani and start arabic
 
 
 

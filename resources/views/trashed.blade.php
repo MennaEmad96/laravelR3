@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>trashed</title>
+  <title>{{ __('trashed.title') }}</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -11,7 +11,7 @@
 <body>
     @include('includes.nav')
     <div class="container">
-        <h2>Trashed Cars List</h2>
+        <h2>{{ __('trashed.table') }}</h2>
         <table class="table table-hover">
             <thead>
                 <tr>
