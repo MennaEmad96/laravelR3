@@ -13,7 +13,7 @@ class Expiration extends Command
      *
      * @var string
      */
-    // 2) change name
+    // 2) change command signature name
     protected $signature = 'user:expiration';
 
     /**
